@@ -3,13 +3,15 @@ import { Metadata } from 'next'
 import { draftMode } from 'next/headers'
 import { notFound } from 'next/navigation'
 
-import { Page } from '../../../payload/payload-types'
+import { Category, Page, Product } from '../../../payload/payload-types'
 import { staticHome } from '../../../payload/seed/home-static'
 import { fetchDoc } from '../../_api/fetchDoc'
 import { fetchDocs } from '../../_api/fetchDocs'
 import { Blocks } from '../../_components/Blocks'
+import { Gutter } from '../../_components/Gutter'
 import { Hero } from '../../_components/Hero'
 import { generateMeta } from '../../_utilities/generateMeta'
+import { HR } from '../../_components/HR'
 
 // Payload Cloud caches all files through Cloudflare, so we don't need Next.js to cache them as well
 // This means that we can turn off Next.js data caching and instead rely solely on the Cloudflare CDN
@@ -19,10 +21,18 @@ import { generateMeta } from '../../_utilities/generateMeta'
 // If you are not using Payload Cloud then this line can be removed, see `../../../README.md#cache`
 export const dynamic = 'force-dynamic'
 
+import Categories from '../../_components/Categories'
+import NewProducts from '../../_components/NewProducts'
+import Promotion from '../../_components/Promotion'
+
+import classes from './index.module.scss'
+import QuickCheckout from '../../_components/QuickCheckout'
+
 export default async function Page({ params: { slug = 'home' } }) {
   const { isEnabled: isDraftMode } = draftMode()
 
   let page: Page | null = null
+  let categories: Category[] | null = null
 
   try {
     page = await fetchDoc<Page>({
@@ -30,12 +40,23 @@ export default async function Page({ params: { slug = 'home' } }) {
       slug,
       draft: isDraftMode,
     })
+
+    categories = await fetchDocs<Category>('categories')
   } catch (error) {
     // when deploying this template on Payload Cloud, this page needs to build before the APIs are live
     // so swallow the error here and simply render the page with fallback data where necessary
     // in production you may want to redirect to a 404  page or at least log the error somewhere
     // console.error(error)
   }
+  ////////////fetching products
+  let products: Product[] | null = null;
+
+  try {
+    products = await fetchDocs<Product>('products'); // Fetch all fields of products
+  } catch (error) {
+    console.log(error);
+  }
+  /////////////////////////////
 
   // if no `home` page exists, render a static one using dummy content
   // you should delete this code once you have a home page in the CMS
@@ -52,11 +73,26 @@ export default async function Page({ params: { slug = 'home' } }) {
 
   return (
     <React.Fragment>
-      <Hero {...hero} />
-      <Blocks
-        blocks={layout}
-        disableTopPadding={!hero || hero?.type === 'none' || hero?.type === 'lowImpact'}
-      />
+      {slug === 'home' ? (
+        <section>
+          <Hero {...hero} />
+          <Gutter className={classes.home}>
+            <Categories categories={categories} />
+            <HR />
+            <NewProducts NewProducts={products}/>
+            <Promotion />
+            <QuickCheckout NewProducts={products}/>
+          </Gutter>
+        </section>
+      ) : (
+        <>
+          <Hero {...hero} />
+          <Blocks
+            blocks={layout}
+            disableTopPadding={!hero || hero?.type === 'none' || hero?.type === 'lowImpact'}
+          />
+        </>
+      )}
     </React.Fragment>
   )
 }

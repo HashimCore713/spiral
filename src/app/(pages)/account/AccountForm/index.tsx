@@ -16,6 +16,8 @@ type FormData = {
   name: string
   password: string
   passwordConfirm: string
+  address: string
+  phone: string
 }
 
 const AccountForm: React.FC = () => {
@@ -41,34 +43,36 @@ const AccountForm: React.FC = () => {
     async (data: FormData) => {
       if (user) {
         const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/users/${user.id}`, {
-          // Make sure to include cookies with fetch
           credentials: 'include',
           method: 'PATCH',
           body: JSON.stringify(data),
           headers: {
             'Content-Type': 'application/json',
           },
-        })
-
+        });
+  
         if (response.ok) {
-          const json = await response.json()
-          setUser(json.doc)
-          setSuccess('Successfully updated account.')
-          setError('')
-          setChangePassword(false)
+          const json = await response.json();
+          setUser(json.doc);
+          setSuccess('Successfully updated account.');
+          setError('');
+          setChangePassword(false);
           reset({
             email: json.doc.email,
             name: json.doc.name,
             password: '',
             passwordConfirm: '',
-          })
+            address: json.doc.address,
+            phone: json.doc.phone,
+          });
         } else {
-          setError('There was a problem updating your account.')
+          setError('There was a problem updating your account.');
         }
       }
     },
     [user, setUser, reset],
   )
+  
 
   useEffect(() => {
     if (user === null) {
@@ -78,14 +82,15 @@ const AccountForm: React.FC = () => {
         )}&redirect=${encodeURIComponent('/account')}`,
       )
     }
-
-    // Once user is loaded, reset form to have default values
+  
     if (user) {
       reset({
         email: user.email,
         name: user.name,
         password: '',
         passwordConfirm: '',
+        address: user.address || '',
+        phone: user.phone || '',
       })
     }
   }, [user, router, reset, changePassword])
@@ -95,6 +100,28 @@ const AccountForm: React.FC = () => {
       <Message error={error} success={success} className={classes.message} />
       {!changePassword ? (
         <Fragment>
+          <Input
+            name="email"
+            label="Email Address"
+            required
+            register={register}
+            error={errors.email}
+            type="email"
+          />
+          <Input name="name" label="Name" register={register} error={errors.name} />
+          <Input
+            name="address"
+            label="Address"
+            register={register}
+            error={errors.address}
+          />
+          <Input
+            name="phone"
+            label="Phone Number"
+            register={register}
+            error={errors.phone}
+          />
+
           <p>
             {'Change your account details below, or '}
             <button
@@ -106,15 +133,6 @@ const AccountForm: React.FC = () => {
             </button>
             {' to change your password.'}
           </p>
-          <Input
-            name="email"
-            label="Email Address"
-            required
-            register={register}
-            error={errors.email}
-            type="email"
-          />
-          <Input name="name" label="Name" register={register} error={errors.name} />
         </Fragment>
       ) : (
         <Fragment>

@@ -56,6 +56,7 @@
   aspect-ratio: 5 / 4;
   width: 100%;
   max-width: 200px;
+  border-radius: 15px;
 
   @include small-break {
     max-width: unset;
@@ -90,6 +91,7 @@
   aspect-ratio: 5 / 4;
   width: 100%;
   max-width: 300px;
+  border-radius: 15px;
 
   @include small-break {
     max-width: unset;

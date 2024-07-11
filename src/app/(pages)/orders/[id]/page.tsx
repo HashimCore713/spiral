@@ -8,7 +8,6 @@ import { Button } from '../../../_components/Button'
 import { Gutter } from '../../../_components/Gutter'
 import { HR } from '../../../_components/HR'
 import { Media } from '../../../_components/Media'
-import { Price } from '../../../_components/Price'
 import { formatDateTime } from '../../../_utilities/formatDateTime'
 import { getMeUser } from '../../../_utilities/getMeUser'
 import { mergeOpenGraph } from '../../../_utilities/mergeOpenGraph'
@@ -53,14 +52,14 @@ export default async function Order({ params: { id } }) {
       </h1>
       <div className={classes.itemMeta}>
         <p>{`ID: ${order.id}`}</p>
-        <p>{`Payment Intent: ${order.stripePaymentIntentID}`}</p>
+        <p>{`Payment Method: ${order.stripePaymentIntentID}`}</p>
         <p>{`Ordered On: ${formatDateTime(order.createdAt)}`}</p>
         <p className={classes.total}>
           {'Total: '}
-          {new Intl.NumberFormat('en-US', {
+          {new Intl.NumberFormat('en-PK', {
             style: 'currency',
-            currency: 'usd',
-          }).format(order.total / 100)}
+            currency: 'PKR',
+          }).format(order.total)}
         </p>
       </div>
       <HR />
@@ -71,7 +70,7 @@ export default async function Order({ params: { id } }) {
             const {
               quantity,
               product,
-              product: { id, title, meta, stripeProductID },
+              product: { id, title, meta, stripeProductID, price },
             } = item
 
             const isLast = index === (order?.items?.length || 0) - 1
@@ -110,7 +109,10 @@ export default async function Order({ params: { id } }) {
                       </Link>
                     </h5>
                     <p>{`Quantity: ${quantity}`}</p>
-                    <Price product={product} button={false} quantity={quantity} />
+                    <p className={classes.price}>{new Intl.NumberFormat('en-PK', {
+                      style: 'currency',
+                      currency: 'PKR',
+                    }).format(price)}</p>
                   </div>
                 </div>
                 {!isLast && <HR />}
@@ -130,13 +132,11 @@ export default async function Order({ params: { id } }) {
   )
 }
 
-export async function generateMetadata({ params: { id } }): Promise<Metadata> {
-  return {
+export const generateMetadata = async ({ params: { id } }): Promise<Metadata> => ({
+  title: `Order ${id}`,
+  description: `Order details for order ${id}.`,
+  openGraph: mergeOpenGraph({
     title: `Order ${id}`,
-    description: `Order details for order ${id}.`,
-    openGraph: mergeOpenGraph({
-      title: `Order ${id}`,
-      url: `/orders/${id}`,
-    }),
-  }
-}
+    url: `/orders/${id}`,
+  }),
+})

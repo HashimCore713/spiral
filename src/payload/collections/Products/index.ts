@@ -12,6 +12,7 @@ import { beforeProductChange } from './hooks/beforeChange'
 import { deleteProductFromCarts } from './hooks/deleteProductFromCarts'
 import { revalidateProduct } from './hooks/revalidateProduct'
 import { ProductSelect } from './ui/ProductSelect'
+import { anyone } from '../../access/anyone'
 
 const Products: CollectionConfig = {
   slug: 'products',
@@ -36,7 +37,7 @@ const Products: CollectionConfig = {
   access: {
     read: () => true,
     create: admins,
-    update: admins,
+    update: anyone,
     delete: admins,
   },
   fields: [
@@ -93,13 +94,26 @@ const Products: CollectionConfig = {
               },
             },
             {
+              name: 'price',
+              label: 'Price',
+              type: 'number',
+              min: 0,
+              required: true,
+            },
+            {
+              name: 'stock',
+              label: 'Stock',
+              type: 'number',
+              min: 0,
+              required: true,
+            },
+            {
               name: 'priceJSON',
               label: 'Price JSON',
-              type: 'textarea',
+              type: 'number',
               admin: {
                 readOnly: true,
                 hidden: true,
-                rows: 10,
               },
             },
             {

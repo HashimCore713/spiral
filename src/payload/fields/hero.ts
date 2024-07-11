@@ -17,22 +17,11 @@ export const hero: Field = {
       required: true,
       defaultValue: 'lowImpact',
       options: [
-        {
-          label: 'None',
-          value: 'none',
-        },
-        {
-          label: 'High Impact',
-          value: 'highImpact',
-        },
-        {
-          label: 'Medium Impact',
-          value: 'mediumImpact',
-        },
-        {
-          label: 'Low Impact',
-          value: 'lowImpact',
-        },
+        { label: 'None', value: 'none' },
+        { label: 'High Impact', value: 'highImpact' },
+        { label: 'Medium Impact', value: 'mediumImpact' },
+        { label: 'Low Impact', value: 'lowImpact' },
+        { label: 'Custom Hero', value: 'customHero' },
       ],
     },
     richText({
@@ -48,12 +37,19 @@ export const hero: Field = {
     }),
     {
       name: 'media',
-      type: 'upload',
-      relationTo: 'media',
-      required: true,
+      label: 'Media',
+      type: 'array',
       admin: {
-        condition: (_, { type } = {}) => ['highImpact', 'mediumImpact'].includes(type),
+        condition: (_, { type } = {}) => ['customHero'].includes(type),
       },
+      fields: [
+        {
+          type: 'upload',
+          name: 'image',
+          relationTo: 'media',
+          required: true,
+        },
+      ],
     },
   ],
-}
+};
