@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -15,6 +15,34 @@ import classes from './index.module.scss'
 const FooterComponent = ({ footer }: { footer: Footer }) => {
   const pathname = usePathname()
   const navItems = footer?.navItems || []
+
+  /////////////
+  const SliderContent = ({ text }) => {
+    const [position, setPosition] = useState(0);
+    const sliderRef = useRef(null);
+  
+    useEffect(() => {
+      const interval = setInterval(() => {
+        setPosition(prevPosition => (prevPosition - 1) % sliderRef.current.offsetWidth);
+      }, 10); // Adjust speed as needed (lower number = faster)
+  
+      return () => clearInterval(interval);
+    }, []);
+  
+    return (
+      <div className={classes.contactSlider}>
+        <div className={classes.sliderContent} ref={sliderRef} style={{ transform: `translateX(${position}px)` }}>
+        <Link href="/contact" passHref>
+          <span className={classes.sliderText}>{text}&nbsp;</span>
+        </Link>
+        <Link href="/contact" passHref>
+          <span className={classes.sliderText}>{text}&nbsp;</span>
+        </Link>
+        </div>
+      </div>
+    );
+  };
+  ////////////
 
   return (
     <footer className={noFooterUrls.includes(pathname) ? classes.hide : ''}>
@@ -51,6 +79,14 @@ const FooterComponent = ({ footer }: { footer: Footer }) => {
               })}
             </div>
           </div>
+        </Gutter>
+        <SliderContent text="Get In Contact" />
+        <Gutter>
+          <Link href="https://coresconnect.com" passHref>
+            <div className={classes.credit}>
+              WEBSITE MAINTAINED & DEVELOPED BY <span className={classes.highlight}>CORES CONNECT</span>
+            </div>
+          </Link>
         </Gutter>
       </div>
     </footer>

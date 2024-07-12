@@ -12,6 +12,7 @@ import { Gutter } from '../../_components/Gutter'
 import { Hero } from '../../_components/Hero'
 import { HR } from '../../_components/HR'
 import { generateMeta } from '../../_utilities/generateMeta'
+import ShopInfo from '../../_components/ShopInfo'
 
 // Payload Cloud caches all files through Cloudflare, so we don't need Next.js to cache them as well
 // This means that we can turn off Next.js data caching and instead rely solely on the Cloudflare CDN
@@ -80,7 +81,12 @@ export default async function Page({ params: { slug = 'home' } }) {
             <Categories categories={categories} />
             <HR />
             <NewProducts NewProducts={products} />
-            <Promotion />
+            <HR />
+            <ShopInfo
+              imageUrl="http://spiral-gadgets/media/location.png"
+              location="Hilal Rd, F-11 Markaz F 11 Markaz F-11, Islamabad, Islamabad Capital Territory 44000, Pakistan"
+              mapsLink="https://maps.app.goo.gl/6yjsYK5F33bwqRpw8"
+            />
             <HR />
             <QuickCheckout NewProducts={products} />
             <HR />

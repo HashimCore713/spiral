@@ -16,6 +16,7 @@ import Categories from './collections/Categories'
 import { Media } from './collections/Media'
 import { Orders } from './collections/Orders'
 import { Pages } from './collections/Pages'
+import Contact from './collections/Contact' // Import the Contact collection
 import Products from './collections/Products'
 import Users from './collections/Users'
 import BeforeDashboard from './components/BeforeDashboard'
@@ -43,46 +44,37 @@ dotenv.config({
 export default buildConfig({
   admin: {
     user: Users.slug,
-    bundler: webpackBundler(), // bundler-config
+    bundler: webpackBundler(),
     components: {
-      // The `BeforeLogin` component renders a message that you see while logging into your admin panel.
-      // Feel free to delete this at any time. Simply remove the line below and the import `BeforeLogin` statement on line 15.
       beforeLogin: [BeforeLogin],
-      // The `BeforeDashboard` component renders the 'welcome' block that you see after logging into your admin panel.
-      // Feel free to delete this at any time. Simply remove the line below and the import `BeforeDashboard` statement on line 15.
       beforeDashboard: [BeforeDashboard],
     },
-    webpack: config => {
-      return {
-        ...config,
-        resolve: {
-          ...config.resolve,
-          alias: {
-            ...config.resolve?.alias,
-            dotenv: path.resolve(__dirname, './dotenv.js'),
-            [path.resolve(__dirname, 'collections/Products/hooks/beforeChange')]: mockModulePath,
-            [path.resolve(__dirname, 'collections/Users/hooks/createStripeCustomer')]:
-              mockModulePath,
-            [path.resolve(__dirname, 'collections/Users/endpoints/customer')]: mockModulePath,
-            [path.resolve(__dirname, 'endpoints/create-payment-intent')]: mockModulePath,
-            [path.resolve(__dirname, 'endpoints/customers')]: mockModulePath,
-            [path.resolve(__dirname, 'endpoints/products')]: mockModulePath,
-            [path.resolve(__dirname, 'endpoints/seed')]: mockModulePath,
-            stripe: mockModulePath,
-            express: mockModulePath,
-          },
+    webpack: config => ({
+      ...config,
+      resolve: {
+        ...config.resolve,
+        alias: {
+          ...config.resolve?.alias,
+          dotenv: path.resolve(__dirname, './dotenv.js'),
+          [path.resolve(__dirname, 'collections/Products/hooks/beforeChange')]: mockModulePath,
+          [path.resolve(__dirname, 'collections/Users/hooks/createStripeCustomer')]: mockModulePath,
+          [path.resolve(__dirname, 'collections/Users/endpoints/customer')]: mockModulePath,
+          [path.resolve(__dirname, 'endpoints/create-payment-intent')]: mockModulePath,
+          [path.resolve(__dirname, 'endpoints/customers')]: mockModulePath,
+          [path.resolve(__dirname, 'endpoints/products')]: mockModulePath,
+          [path.resolve(__dirname, 'endpoints/seed')]: mockModulePath,
+          stripe: mockModulePath,
+          express: mockModulePath,
         },
-      }
-    },
+      },
+    }),
   },
-  editor: slateEditor({}), // editor-config
-  // database-adapter-config-start
+  editor: slateEditor({}),
   db: mongooseAdapter({
     url: process.env.DATABASE_URI,
   }),
-  // database-adapter-config-end
   serverURL: 'https://spiral-gadgets.com',
-  collections: [Pages, Products, Orders, Media, Categories, Users],
+  collections: [Pages, Products, Orders, Media, Categories, Users, Contact], // Include Contact collection here
   globals: [Settings, Header, Footer],
   typescript: {
     outputFile: path.resolve(__dirname, 'payload-types.ts'),
@@ -120,8 +112,6 @@ export default buildConfig({
       method: 'get',
       handler: productsProxy,
     },
-    // The seed endpoint is used to populate the database with some example data
-    // You should delete this endpoint before deploying your site to production
     {
       path: '/seed',
       method: 'get',
@@ -129,7 +119,6 @@ export default buildConfig({
     },
   ],
   plugins: [
-    // formBuilder({}),
     stripePlugin({
       stripeSecretKey: process.env.STRIPE_SECRET_KEY || '',
       isTestKey: Boolean(process.env.PAYLOAD_PUBLIC_STRIPE_IS_TEST_KEY),
