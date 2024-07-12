@@ -1,0 +1,20 @@
+@import '../../_css/common';
+
+.container {
+  width: 100%;
+  margin-top: 40px;
+
+  @media (max-width: 540px) {
+    margin-top: 30px;
+  }
+}
+
+.products {
+  display: block;
+  grid-template-columns: 1fr 75%;
+
+  @include large-break {
+    grid-template-columns: 100%;
+    gap: 48px;
+  }
+}
