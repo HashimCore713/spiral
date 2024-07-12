@@ -27,6 +27,7 @@ const policies = {
     "'self'",
     'https://checkout.stripe.com',
     'https://api.stripe.com',
+    'https://spiral-gadgets.com',
     'https://maps.googleapis.com',
   ],
 }
