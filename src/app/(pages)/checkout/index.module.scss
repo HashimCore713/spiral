@@ -1,0 +1,9 @@
+@import "../../_css/common";
+
+.checkout {
+  width: 100%;
+
+  @include small-break {
+    margin-top: 0px;
+  }
+}
