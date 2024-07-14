@@ -23,6 +23,8 @@ interface HeaderNavProps {
 
 export const HeaderNav: React.FC<HeaderNavProps> = ({ header, categories, menuOpen }) => {
   const { user } = useAuth()
+  console.log("Current User:", user); // Log user state
+
   const { setCategoryFilters } = useFilter()
 
   const navItems = [
