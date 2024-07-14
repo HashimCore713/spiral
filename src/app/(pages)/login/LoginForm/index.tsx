@@ -29,12 +29,23 @@ const LoginForm: React.FC = () => {
   const onSubmit = useCallback(
     async (data: FormData) => {
       try {
-        const user = await login(data);
-        console.log('Logged in user:', user); // Check the logged-in user
-        if (redirect.current) {
-          router.push(redirect.current);
+        await login(data);
+        // Fetch user state immediately after login
+        const userRes = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/users/me`, {
+          method: 'GET',
+          credentials: 'include',
+        });
+  
+        if (userRes.ok) {
+          const { user } = await userRes.json();
+          console.log('Current User:', user);
+          if (user) {
+            router.push('/account');
+          } else {
+            setError('User not found. Please log in again.');
+          }
         } else {
-          router.push('/account');
+          setError('Failed to fetch user information.');
         }
       } catch (_) {
         setError('There was an error with the credentials provided. Please try again.');
@@ -42,6 +53,7 @@ const LoginForm: React.FC = () => {
     },
     [login, router],
   );
+  
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={classes.form}>
