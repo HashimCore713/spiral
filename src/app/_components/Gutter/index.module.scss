@@ -1,0 +1,21 @@
+.gutter {
+  max-width: 1920px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.gutterLeft {
+  padding-left: var(--gutter-h);
+}
+
+.gutterRight {
+  padding-right: var(--gutter-h);
+}
+
+// @media (max-width: 768px) { /* Adjust the max-width value as needed for your mobile breakpoint */
+//   .gutterRight {
+//     padding: 12px 0;
+//     justify-content: center;
+//     align-items: center;
+//   }
+// }
