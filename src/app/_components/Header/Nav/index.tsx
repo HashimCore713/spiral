@@ -1,34 +1,35 @@
 'use client'
 
-import React from 'react'
-import Link from 'next/link'
-import { PiShoppingCart } from "react-icons/pi";
-import { PiUser } from "react-icons/pi";
-import { FaSignInAlt } from "react-icons/fa" 
-import { PiShoppingBagOpen } from "react-icons/pi";
+import React from 'react';
+import Link from 'next/link';
+import { PiShoppingCart } from 'react-icons/pi';
+import { PiUser } from 'react-icons/pi';
+import { FaSignInAlt } from 'react-icons/fa';
+import { PiShoppingBagOpen } from 'react-icons/pi';
 
-import { Category, Header as HeaderType } from '../../../../payload/payload-types'
-import { useAuth } from '../../../_providers/Auth'
-import { useFilter } from '../../../_providers/Filter'
-import { Button } from '../../Button'
-import { CartLink } from '../../CartLink'
+import { Category, Header as HeaderType } from '../../../../payload/payload-types';
+import { useAuth } from '../../../_providers/Auth';
+import { useFilter } from '../../../_providers/Filter';
+import { Button } from '../../Button';
+import { CartLink } from '../../CartLink';
 
-import classes from './index.module.scss'
+import classes from './index.module.scss';
 
 interface HeaderNavProps {
-  header: HeaderType
-  categories: Category[] // Include categories as a prop
-  menuOpen: boolean
+  header: HeaderType;
+  categories: Category[]; // Include categories as a prop
+  menuOpen: boolean;
+  closeMenu: () => void; // Add this prop to close the menu
 }
 
-export const HeaderNav: React.FC<HeaderNavProps> = ({ header, categories, menuOpen }) => {
-  const { user } = useAuth()
-  const { setCategoryFilters } = useFilter()
+export const HeaderNav: React.FC<HeaderNavProps> = ({ header, categories, menuOpen, closeMenu }) => {
+  const { user } = useAuth();
+  const { setCategoryFilters } = useFilter();
 
   const navItems = [
-    { icon: <PiShoppingBagOpen className={classes.icon}/>, link: '/products' },
-    user && { icon: <PiUser className={classes.icon}/>, link: '/account' },
-    { icon: <PiShoppingCart className={classes.icon}/>, component: <CartLink /> },
+    { icon: <PiShoppingBagOpen className={classes.icon} />, link: '/products' },
+    user && { icon: <PiUser className={classes.icon} />, link: '/account' },
+    { icon: <PiShoppingCart className={classes.icon} />, component: <CartLink /> },
     !user && {
       icon: <FaSignInAlt />,
       component: (
@@ -37,11 +38,14 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({ header, categories, menuOp
           href="/login"
           label="Login"
           appearance="primary"
-          onClick={() => (window.location.href = '/login')}
+          onClick={() => {
+            closeMenu();
+            window.location.href = '/login';
+          }}
         />
       ),
     },
-  ].filter(Boolean)
+  ].filter(Boolean);
 
   return (
     <nav
@@ -57,7 +61,10 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({ header, categories, menuOp
         <div key={i} className={classes.navItem}>
           <Link
             href="/products"
-            onClick={() => setCategoryFilters([category.id])}
+            onClick={() => {
+              setCategoryFilters([category.id]);
+              closeMenu(); // Close menu on click
+            }}
             className={classes.categoryLink}
           >
             {category.title}
@@ -65,7 +72,10 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({ header, categories, menuOp
           {navItems[i] && (
             <>
               {navItems[i].link ? (
-                <Link href={navItems[i].link}>
+                <Link
+                  href={navItems[i].link}
+                  onClick={closeMenu} // Close menu on click
+                >
                   {navItems[i].icon}
                 </Link>
               ) : (
@@ -79,7 +89,10 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({ header, categories, menuOp
         navItems.slice(categories.length).map((navItem, i) => (
           <div key={`extra-${i}`} className={classes.navItem}>
             {navItem.link ? (
-              <Link href={navItem.link}>
+              <Link
+                href={navItem.link}
+                onClick={closeMenu} // Close menu on click
+              >
                 {navItem.icon}
               </Link>
             ) : (
@@ -88,5 +101,5 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({ header, categories, menuOp
           </div>
         ))}
     </nav>
-  )
-}
+  );
+};

@@ -23,7 +23,7 @@ const start = async (): Promise<void> => {
       payload.logger.info(`Payload Admin URL: ${payload.getAdminURL()}`)
     },
     email: {
-      fromName: 'Spiral Gadgets',
+      fromName: 'no-reply@spiral-gadgets.com',
       fromAddress: 'no-reply@spiral-gadgets.com',
       transportOptions: {
         host: process.env.SMTP_HOST,
