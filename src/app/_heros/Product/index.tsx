@@ -83,8 +83,7 @@ export const ProductHero: React.FC<{
 
               return (
                 <p key={index} className={classes.category}>
-                  {titleToUse} {!isLast && <span className={classes.separator}>|</span>}
-                  |
+                  {titleToUse} <span className={classes.separator}>|</span>
                 </p>
               )
             })}
