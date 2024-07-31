@@ -85,14 +85,14 @@ export default buildConfig({
   },
   cors: [
     'https://checkout.stripe.com', 
-    // 'https://spiral-gadgets.com',
+    'https://www.spiral-gadgets.com/',
     process.env.PAYLOAD_PUBLIC_SERVER_URL || 
     ''].filter(
     Boolean,
   ),
   csrf: [
     'https://checkout.stripe.com', 
-    // 'https://spiral-gadgets.com',
+    'https://www.spiral-gadgets.com/',
     process.env.PAYLOAD_PUBLIC_SERVER_URL || 
     ''].filter(
     Boolean,

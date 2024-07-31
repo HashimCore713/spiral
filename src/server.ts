@@ -18,8 +18,8 @@ const PORT = process.env.PORT || 3000
 
 // CORS options to allow specific origins
 const corsOptions = {
-  // origin: ['https://spiral-gadgets.com', process.env.PAYLOAD_PUBLIC_SERVER_URL],
-  origin: process.env.PAYLOAD_PUBLIC_SERVER_URL,
+  origin: ['https://www.spiral-gadgets.com/', process.env.PAYLOAD_PUBLIC_SERVER_URL],
+  // origin: process.env.PAYLOAD_PUBLIC_SERVER_URL,
   methods: ['GET', 'POST'], // Add other HTTP methods if needed
   allowedHeaders: ['Content-Type', 'Authorization'],
 };
