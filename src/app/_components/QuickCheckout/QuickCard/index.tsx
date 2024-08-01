@@ -1,6 +1,6 @@
 'use client'
 
-import React, { Fragment, useEffect, useState } from 'react'
+import React from 'react'
 import Link from 'next/link'
 
 import { Product } from '../../../../payload/payload-types'
@@ -23,7 +23,7 @@ const QuickCard: React.FC<{
     showCategories,
     title: titleFromProps,
     doc,
-    doc: { slug, title, categories, meta, price, stock } = {},
+    doc: { slug, title, categories, meta, price, stock, gallery } = {},
     className,
   } = props
 
@@ -31,7 +31,7 @@ const QuickCard: React.FC<{
     return price.toLocaleString('en-PK')
   }
 
-  const { description, image: metaImage } = meta || {}
+  const { description } = meta || {}
   const titleToUse = titleFromProps || title
   const sanitizedDescription = description?.replace(/\s/g, ' ')
   const href = `/products/${slug}`
@@ -42,6 +42,9 @@ const QuickCard: React.FC<{
   if (!hasTargetCategory) {
     return null // Don't render if the product does not have the target category
   }
+
+  // Use the first image from the gallery as the main image
+  const mainImage = gallery?.[0]
 
   return (
     <div className={[classes.card, className].filter(Boolean).join(' ')}>
@@ -61,9 +64,9 @@ const QuickCard: React.FC<{
         </div>
         <div className={classes.mediaWrapper}>
           <div className={classes.collageCard}>
-            {!metaImage && <div className={classes.placeholder}>No image</div>}
-            {metaImage && typeof metaImage !== 'string' && (
-              <Media imgClassName={classes.image} resource={metaImage} fill />
+            {!mainImage && <div className={classes.placeholder}>No image</div>}
+            {mainImage && (
+              <Media imgClassName={classes.image} resource={mainImage} fill />
             )}
           </div>
         </div>
@@ -73,4 +76,3 @@ const QuickCard: React.FC<{
 }
 
 export default QuickCard
-
