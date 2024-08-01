@@ -9,6 +9,18 @@
   }
 }
 
+.searchResults {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(30%, 1fr));
+  gap: 30px;
+  width: 100%;
+
+  @media (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
 .products {
   display: block;
   grid-template-columns: 1fr 75%;

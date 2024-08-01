@@ -1,6 +1,6 @@
 'use client'
 
-import React, { Fragment, useEffect, useState } from 'react'
+import React from 'react'
 import Link from 'next/link'
 
 import { Product } from '../../../payload/payload-types'
@@ -21,29 +21,31 @@ export const SearchCard: React.FC<{
     showCategories,
     title: titleFromProps,
     doc,
-    doc: { slug, title, categories, meta, price } = {},
+    doc: { slug, title, categories, meta, price, gallery } = {},
     className,
   } = props
 
-  // console.log('Props:', props);
   // Function to format price with commas
   const formatPrice = (price: number) => {
     return price.toLocaleString('en-US') // Adjust 'en-US' to your desired locale if different
   }
 
-  const { description, image: metaImage } = meta || {}
+  const { description } = meta || {}
 
   const hasCategories = categories && Array.isArray(categories) && categories.length > 0
   const titleToUse = titleFromProps || title
   const sanitizedDescription = description?.replace(/\s/g, ' ') // replace non-breaking space with white space
   const href = `/products/${slug}`
 
+  // Use the first image from the gallery as the main image
+  const mainImage = gallery?.[0]
+
   return (
     <Link href={href} className={[classes.card, className].filter(Boolean).join(' ')}>
       <div className={classes.mediaWrapper}>
-        {!metaImage && <div className={classes.placeholder}>No image</div>}
-        {metaImage && typeof metaImage !== 'string' && (
-          <Media imgClassName={classes.image} resource={metaImage} fill />
+        {!mainImage && <div className={classes.placeholder}>No image</div>}
+        {mainImage && (
+          <Media imgClassName={classes.image} resource={mainImage} fill />
         )}
       </div>
 
@@ -54,7 +56,6 @@ export const SearchCard: React.FC<{
             {description && <p className={classes.description}>{sanitizedDescription}</p>}
           </div>
         )}
-        {/* {price && <p className={classes.price}><b>PKR </b>{price.toFixed(0)}</p>} */}
         {/* Display Price with commas */}
         {price && (
           <p className={classes.price}>

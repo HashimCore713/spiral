@@ -1,6 +1,6 @@
 'use client'
 
-import React, { Fragment, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 
 import { Product } from '../../../../payload/payload-types'
@@ -21,7 +21,7 @@ export const NewProductCard: React.FC<{
     showCategories,
     title: titleFromProps,
     doc,
-    doc: { slug, title, categories, meta, price } = {},
+    doc: { slug, title, categories, meta, price, gallery } = {},
     className,
   } = props
 
@@ -29,7 +29,7 @@ export const NewProductCard: React.FC<{
     return price.toLocaleString('en-PK') // Adjust 'en-US' to your desired locale if different
   }
 
-  const { description, image: metaImage } = meta || {}
+  const { description } = meta || {}
 
   const titleToUse = titleFromProps || title
   const sanitizedDescription = description?.replace(/\s/g, ' ')
@@ -65,6 +65,9 @@ export const NewProductCard: React.FC<{
     }
   }, [titleToUse])
 
+  // Use the first image from the gallery as the main image
+  const mainImage = gallery?.[0]
+
   return (
     <Link href={href} className={[classes.card, className].filter(Boolean).join(' ')}>
       <div className={classes.productDetailsDiv}>
@@ -74,9 +77,9 @@ export const NewProductCard: React.FC<{
       </div>
       <div className={mediaWrapperClassName}>
         <div className={classes.collageCard}>
-          {!metaImage && <div className={classes.placeholder}>No image</div>}
-          {metaImage && typeof metaImage !== 'string' && (
-            <Media imgClassName={classes.image} resource={metaImage} fill />
+          {!mainImage && <div className={classes.placeholder}>No image</div>}
+          {mainImage && (
+            <Media imgClassName={classes.image} resource={mainImage} fill />
           )}
         </div>
       </div>

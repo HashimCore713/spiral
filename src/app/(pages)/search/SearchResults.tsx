@@ -18,9 +18,13 @@ const SearchResults = ({ products }: { products: Product[] }) => {
 
   useEffect(() => {
     if (query) {
-      const filtered = products.filter(product =>
-        product.slug.toLowerCase().includes(query.toLowerCase())
-      )
+      // Split the query into words, remove spaces, and filter
+      const queryTerms = query.toLowerCase().split(' ').filter(term => term.trim() !== '')
+
+      const filtered = products.filter(product => {
+        const slug = product.slug.toLowerCase()
+        return queryTerms.every(term => slug.includes(term))
+      })
 
       setFilteredProducts(filtered)
     } else {

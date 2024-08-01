@@ -14,13 +14,14 @@ export const ProductHero: React.FC<{
   const {
     title,
     categories,
-    meta: { image: metaImage, description },
+    meta: { description },
     price,
     stock,
     gallery,
   } = product
 
-  const [selectedImage, setSelectedImage] = useState(metaImage)
+  // Initialize selectedImage with the first gallery image
+  const [selectedImage, setSelectedImage] = useState(gallery?.[0])
 
   // Function to format price with commas
   const formatPrice = (price: number) => {
