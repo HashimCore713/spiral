@@ -16,12 +16,17 @@ export const CheckoutItem = ({ product, title, metaImage, quantity, index }) => 
     return 'PKR 0'
   }
 
+  // Use the first image from the gallery if available
+  const imageToUse = product.gallery && product.gallery.length > 0
+  ? product.gallery[0]
+  : product.meta?.image;
+
   return (
     <li className={classes.item} key={index}>
       <Link href={`/products/${product.slug}`} className={classes.mediaWrapper}>
-        {!metaImage && <span>No image</span>}
-        {metaImage && typeof metaImage !== 'string' && (
-          <Media className={classes.media} imgClassName={classes.image} resource={metaImage} fill />
+        {!imageToUse && <span>No image</span>}
+        {imageToUse && typeof imageToUse !== 'string' && (
+          <Media className={classes.media} imgClassName={classes.image} resource={imageToUse} fill />
         )}
       </Link>
 

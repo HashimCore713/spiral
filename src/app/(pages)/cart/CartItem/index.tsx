@@ -65,6 +65,11 @@ const CartItem = ({ product, title, metaImage, qty, addItemToCart, fetchProductD
 
   const href = productDetails.slug ? `/products/${productDetails.slug}` : '#'
 
+  // Use the first image from the gallery if available
+  const imageToUse = productDetails.gallery && productDetails.gallery.length > 0
+  ? productDetails.gallery[0]
+  : productDetails.meta?.image;
+
   return (
     <li className={classes.item} key={title}>
       {loading ? (
@@ -72,12 +77,12 @@ const CartItem = ({ product, title, metaImage, qty, addItemToCart, fetchProductD
       ) : (
         <>
           <Link href={href} className={classes.mediaWrapper}>
-            {!metaImage && <span>No image</span>}
-            {metaImage && typeof metaImage !== 'string' && (
+            {!imageToUse && <span>No image</span>}
+            {imageToUse && typeof imageToUse !== 'string' && (
               <Media
                 className={classes.media}
                 imgClassName={classes.image}
-                resource={metaImage}
+                resource={imageToUse}
                 fill
               />
             )}
