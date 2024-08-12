@@ -1,6 +1,7 @@
 import React from 'react'
 import { Metadata } from 'next'
 import { Jost } from 'next/font/google'
+import { DefaultSeo } from 'next-seo'
 
 import { AdminBar } from './_components/AdminBar'
 import { Footer } from './_components/Footer'
@@ -10,6 +11,7 @@ import { InitTheme } from './_providers/Theme/InitTheme'
 import { mergeOpenGraph } from './_utilities/mergeOpenGraph'
 
 import './_css/app.scss'
+import SEO from '../next-seo.config' // Import the config
 
 const jost = Jost({
   subsets: ['latin'],
@@ -22,8 +24,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     <html lang="en" suppressHydrationWarning>
       <head>
         <InitTheme />
-        <link rel="icon" href="/favicon.png" sizes="32x32" />
-        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        <DefaultSeo {...SEO} /> {/* Add Default SEO */}
+        <link rel="icon" href="/public/favicon.png" sizes="32x32" />
+        <link rel="icon" href="/public/favicon.png" type="image/svg+xml" />
       </head>
       <body className={jost.variable}>
         <Providers>

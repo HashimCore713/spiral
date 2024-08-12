@@ -46,6 +46,7 @@
     "google-map-react": "^2.2.1",
     "graphql": "^16.9.0",
     "next": "13.5.2",
+    "next-seo": "^6.5.0",
     "nodemailer": "^6.9.14",
     "payload": "^2.0.7",
     "payload-admin-bar": "^1.0.6",
