@@ -24,9 +24,35 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     <html lang="en" suppressHydrationWarning>
       <head>
         <InitTheme />
-        <DefaultSeo {...SEO} /> {/* Add Default SEO */}
+        <title>Spiral Gadgets | Latest Tech Gadgets & Accessories</title>
+        <meta name="description" content="Discover the latest tech gadgets, phones, laptops, gaming consoles, and accessories at Spiral Gadgets. Your one-stop shop for all things tech in Pakistan." />
+        <meta name="keywords" content="tech gadgets, phones, laptops, gaming consoles, accessories, online shopping, Pakistan" />
+        <meta name="author" content="Spiral Gadgets" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="robots" content="index, follow" />
+
+        {/* Open Graph Tags */}
+        <meta property="og:type" content="website" />
+        <meta property="og:locale" content="en_PK" />
+        <meta property="og:url" content="https://spiral-gadgets.com/" />
+        <meta property="og:site_name" content="Spiral Gadgets" />
+        <meta property="og:title" content="Spiral Gadgets | Tech Gadgets & Accessories" />
+        <meta property="og:description" content="Get the best deals on phones, laptops, gaming consoles, and accessories at Spiral Gadgets. Shop online and enjoy fast delivery across Pakistan." />
+        <meta property="og:image" content="https://spiral-gadgets.com/media/metacard.png" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:alt" content="Spiral Gadgets" />
+
+        {/* Twitter Tags */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:site" content="@SpiralGadgets" />
+        <meta name="twitter:title" content="Spiral Gadgets | Tech Gadgets & Accessories" />
+        <meta name="twitter:description" content="Get the best deals on phones, laptops, gaming consoles, and accessories at Spiral Gadgets. Shop online and enjoy fast delivery across Pakistan." />
+        <meta name="twitter:image" content="https://spiral-gadgets.com/media/metacard.png" />
+
         <link rel="icon" href="/public/favicon.png" sizes="32x32" />
         <link rel="icon" href="/public/favicon.png" type="image/svg+xml" />
+        <link rel="canonical" href="https://spiral-gadgets.com/" />
       </head>
       <body className={jost.variable}>
         <Providers>
