@@ -10,12 +10,28 @@ import classes from './index.module.scss';
 
 export default function ContactPage() {
   const metadata: Metadata = {
-    title: 'Contact Us',
-    description: 'Get in touch with us for any queries or feedback.',
+    title: 'Contact Spiral Gadgets | Get in Touch for Queries & Support',
+    description: 'Reach out to Spiral Gadgets for any queries, support, or feedback. We’re here to help you with your tech needs and ensure you have the best shopping experience.',
     openGraph: mergeOpenGraph({
-      title: 'Contact Us',
+      title: 'Contact Spiral Gadgets | Get in Touch for Queries & Support',
+      description: 'Reach out to Spiral Gadgets for any queries, support, or feedback. We’re here to help you with your tech needs and ensure you have the best shopping experience.',
       url: '/contact',
+      type: 'website',
+      images: [
+        {
+          url: 'https://spiral-gadgets.com/images/contact-us.jpg',
+          width: 1200,
+          height: 630,
+          alt: 'Contact Spiral Gadgets',
+        },
+      ],
     }),
+    twitter: {
+      card: 'summary_large_image',
+      title: 'Contact Spiral Gadgets | Get in Touch for Queries & Support',
+      description: 'Reach out to Spiral Gadgets for any queries, support, or feedback. We’re here to help you with your tech needs and ensure you have the best shopping experience.',
+      images: ['https://spiral-gadgets.com/images/contact-us.jpg'],
+    },
   };
 
   // Handle form submission
@@ -41,10 +57,12 @@ export default function ContactPage() {
 
   return (
     <div className={classes.contact}>
-      <Gutter>
-        <p className={classes.heading}>Contact Form</p>
-        <ContactForm onSubmit={handleSubmit} />
-      </Gutter>
+    <Gutter>
+      <h1 className={classes.heading}>Get in Touch with Spiral Gadgets</h1>
+      <p>Have any questions, feedback, or need support? Fill out the form below and our team will get back to you promptly.</p>
+      <p>&nbsp;</p>
+      <ContactForm onSubmit={handleSubmit} />
+    </Gutter>
     </div>
   );
 }

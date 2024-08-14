@@ -24,8 +24,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     <html lang="en" suppressHydrationWarning>
       <head>
         <InitTheme />
-        <title>Spiral Gadgets | Latest Tech Gadgets & Accessories</title>
-        <meta name="description" content="Discover the latest tech gadgets, phones, laptops, gaming consoles, and accessories at Spiral Gadgets. Your one-stop shop for all things tech in Pakistan." />
         <meta name="keywords" content="tech gadgets, phones, laptops, gaming consoles, accessories, online shopping, Pakistan" />
         <meta name="author" content="Spiral Gadgets" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -50,8 +48,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <meta name="twitter:description" content="Get the best deals on phones, laptops, gaming consoles, and accessories at Spiral Gadgets. Shop online and enjoy fast delivery across Pakistan." />
         <meta name="twitter:image" content="https://spiral-gadgets.com/media/metacard.png" />
 
-        <link rel="icon" href="/public/favicon.png" sizes="32x32" />
-        <link rel="icon" href="/public/favicon.png" type="image/svg+xml" />
+        <link rel="icon" href="/favicon.png" sizes="32x32" />
+        <link rel="icon" href="/favicon.png" type="image/svg+xml" />
         <link rel="canonical" href="https://spiral-gadgets.com/" />
       </head>
       <body className={jost.variable}>

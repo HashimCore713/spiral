@@ -3,7 +3,7 @@
 import React from 'react';
 import classes from './index.module.scss'; // Assuming you'll style this component
 
-const ShopInfo = ({ imageUrl, location, mapsLink }) => {
+const ShopInfo = ({ imageUrl, location, mapsLink, description }) => {
   return (
     <section className={classes.shopInfo}>
       <div className={classes.imageContainer}>
