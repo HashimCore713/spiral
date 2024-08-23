@@ -58,11 +58,16 @@
 }
 
 .heroTextBox {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 15% var(--gutter-h);
+  height: 0; /* Set height to zero to avoid any impact on layout */
+  overflow: hidden; /* Hide any overflowing content */
+  position: absolute; /* Position it absolutely to ensure it doesn't push content around */
+  top: 0;
+  left: 0;
   width: 100%;
+  z-index: -1; /* Keep it behind other elements */
+  color: transparent; /* Make the text transparent */
+  font-size: 0.1rem; /* Extremely small font size */
+  line-height: 0.1rem; /* Tight line height to minimize space */
 
   @include mid-break {
     padding: 10% 30px;
@@ -73,34 +78,24 @@
   }
 
   h2 {
-    font-size: 70px;
-    margin: 32px 0;
-
-    @include mid-break {
-      font-size: 48px;
-      margin: 24px 0;
-      white-space: wrap;
-    }
-
-    @include small-break {
-      width: 70%;
-      font-size: 36px;
-      margin: 8px 0;
-    }
+    font-size: 0.1rem; /* Extremely small font size */
+    margin: 0; /* Remove any margin to prevent spacing */
+    color: transparent; /* Make heading text transparent */
   }
 
   p {
-    font-size: 30px;
+    font-size: 0.1rem; /* Extremely small font size */
+    margin: 0; /* Remove any margin to prevent spacing */
+    color: transparent; /* Make paragraph text transparent */
+  }
 
-    @include mid-break {
-      font-size: 24px;
-    }
-
-    @include small-break {
-      font-size: 18px;
-    }
+  a {
+    font-size: 0.1rem; /* Extremely small font size */
+    color: transparent; /* Make link text transparent */
   }
 }
+
+
 
 .links {
   list-style: none;
