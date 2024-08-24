@@ -70,6 +70,19 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             }),
           }}
         />
+
+        {/* Google Tag Manager */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-KJWDLE7382"></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-KJWDLE7382');
+            `,
+          }}
+        />
       </head>
       <body className={jost.variable}>
         <Providers>
