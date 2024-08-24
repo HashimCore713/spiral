@@ -51,6 +51,25 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <link rel="icon" href="/favicon.png" sizes="32x32" />
         <link rel="icon" href="/favicon.png" type="image/svg+xml" />
         <link rel="canonical" href="https://spiral-gadgets.com/" />
+
+        {/* Schema.org Markup */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              "name": "Spiral Gadgets",
+              "url": "https://spiral-gadgets.com/",
+              "description": "Get the best deals on phones, laptops, gaming consoles, and accessories at Spiral Gadgets. Shop online and enjoy fast delivery across Pakistan.",
+              "potentialAction": {
+                "@type": "SearchAction",
+                "target": "https://spiral-gadgets.com/search?q={search_term_string}",
+                "query-input": "required name=search_term_string"
+              }
+            }),
+          }}
+        />
       </head>
       <body className={jost.variable}>
         <Providers>
@@ -66,10 +85,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 }
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SERVER_URL || 'https://payloadcms.com'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SERVER_URL),
   twitter: {
     card: 'summary_large_image',
-    creator: '@payloadcms',
+    creator: '@SpiralGadgets',
   },
   openGraph: mergeOpenGraph(),
 }

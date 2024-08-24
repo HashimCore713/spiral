@@ -11,7 +11,7 @@ const config = {
       description: 'Get the best deals on phones, laptops, gaming consoles, and accessories at Spiral Gadgets. Shop online and enjoy fast delivery across Pakistan.',
       images: [
         {
-          url: 'https://spiral-gadgets.com/media/metacard.png', // Replace with your actual OG image URL
+          url: 'https://spiral-gadgets.com/media/metacard.png',
           width: 1200,
           height: 630,
           alt: 'Spiral Gadgets',
@@ -44,7 +44,7 @@ const config = {
     additionalLinkTags: [
       {
         rel: 'icon',
-        href: '/public/favicon.png', // Replace with your actual favicon URL
+        href: '/public/favicon.png', 
       },
       {
         rel: 'canonical',
