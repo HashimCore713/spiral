@@ -23,6 +23,19 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        {/* Google Tag Manager */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-KJWDLE7382"></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-KJWDLE7382');
+            `,
+          }}
+        />
+
         <InitTheme />
         <meta name="keywords" content="tech gadgets, phones, laptops, gaming consoles, accessories, online shopping, Pakistan" />
         <meta name="author" content="Spiral Gadgets" />
@@ -48,8 +61,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <meta name="twitter:description" content="Get the best deals on phones, laptops, gaming consoles, and accessories at Spiral Gadgets. Shop online and enjoy fast delivery across Pakistan." />
         <meta name="twitter:image" content="https://spiral-gadgets.com/media/metacard.png" />
 
-        <link rel="icon" href="/favicon.png" sizes="32x32" />
-        <link rel="icon" href="/favicon.png" type="image/svg+xml" />
+        <link rel="icon" href="/public/favicon.png" sizes="32x32" />
+        <link href="/public/favicon.png" rel="shortcut icon" type="image/x-icon" />
+        {/* <link rel="icon" href="/public/favicon.png" type="image/svg+xml" />
+        <link rel="apple-touch-icon" href="/public/favicon.png" sizes="180x180" /> */}
         <link rel="canonical" href="https://spiral-gadgets.com/" />
 
         {/* Schema.org Markup */}
@@ -68,19 +83,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                 "query-input": "required name=search_term_string"
               }
             }),
-          }}
-        />
-
-        {/* Google Tag Manager */}
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-KJWDLE7382"></script>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', 'G-KJWDLE7382');
-            `,
           }}
         />
       </head>
