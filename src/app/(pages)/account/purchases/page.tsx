@@ -1,39 +1,40 @@
-import React from 'react'
-import Link from 'next/link'
+import React from 'react';
+import Link from 'next/link';
 
-import { Media } from '../../../_components/Media'
-import { Price } from '../../../_components/Price'
-import { formatDateTime } from '../../../_utilities/formatDateTime'
-import { getMeUser } from '../../../_utilities/getMeUser'
+import { Media } from '../../../_components/Media';
+import { Price } from '../../../_components/Price';
+import { getMeUser } from '../../../_utilities/getMeUser';
 
-import classes from './index.module.scss'
+import classes from './index.module.scss';
 
 export default async function Purchases() {
   const { user } = await getMeUser({
     nullUserRedirect: `/login?error=${encodeURIComponent(
-      'You must be logged in to access your account.',
+      'You must be logged in to access your account.'
     )}&redirect=${encodeURIComponent('/account')}`,
-  })
+  });
 
   return (
     <div>
       <h5>Purchased Products</h5>
       <div>
-        {user?.purchases?.length || 0 > 0 ? (
+        {user?.purchases?.length > 0 ? (
           <ul className={classes.purchases}>
-            {user?.purchases?.map((purchase, index) => {
+            {user.purchases.map((purchase, index) => {
+              // Declare firstImage outside the JSX
+              const firstImage = purchase.gallery?.[0]; // Get the first image from the gallery
+
               return (
                 <li key={index} className={classes.purchase}>
                   {typeof purchase === 'string' ? (
-                    <p>{purchase} Test</p>
+                    <p>{purchase}</p>
                   ) : (
                     <Link href={`/products/${purchase.slug}`} className={classes.item}>
                       <div className={classes.mediaWrapper}>
-                        {!purchase.meta.image && (
+                        {!firstImage ? (
                           <div className={classes.placeholder}>No image</div>
-                        )}
-                        {purchase.meta.image && typeof purchase.meta.image !== 'string' && (
-                          <Media imgClassName={classes.image} resource={purchase.meta.image} />
+                        ) : (
+                          <Media imgClassName={classes.image} resource={firstImage} />
                         )}
                       </div>
                       <div className={classes.itemDetails}>
@@ -47,7 +48,7 @@ export default async function Purchases() {
                     </Link>
                   )}
                 </li>
-              )
+              );
             })}
           </ul>
         ) : (
@@ -55,5 +56,5 @@ export default async function Purchases() {
         )}
       </div>
     </div>
-  )
+  );
 }

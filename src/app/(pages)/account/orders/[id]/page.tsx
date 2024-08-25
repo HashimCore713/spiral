@@ -1,26 +1,26 @@
-import React, { Fragment } from 'react'
-import { Metadata } from 'next'
-import Link from 'next/link'
-import { notFound } from 'next/navigation'
+import React, { Fragment } from 'react';
+import { Metadata } from 'next';
+import Link from 'next/link';
+import { notFound } from 'next/navigation';
 
-import { Order } from '../../../../../payload/payload-types'
-import { HR } from '../../../../_components/HR'
-import { Media } from '../../../../_components/Media'
-import { Price } from '../../../../_components/Price'
-import { formatDateTime } from '../../../../_utilities/formatDateTime'
-import { getMeUser } from '../../../../_utilities/getMeUser'
-import { mergeOpenGraph } from '../../../../_utilities/mergeOpenGraph'
+import { Order } from '../../../../../payload/payload-types';
+import { HR } from '../../../../_components/HR';
+import { Media } from '../../../../_components/Media';
+import { Price } from '../../../../_components/Price';
+import { formatDateTime } from '../../../../_utilities/formatDateTime';
+import { getMeUser } from '../../../../_utilities/getMeUser';
+import { mergeOpenGraph } from '../../../../_utilities/mergeOpenGraph';
 
-import classes from './index.module.scss'
+import classes from './index.module.scss';
 
 export default async function Order({ params: { id } }) {
   const { token } = await getMeUser({
     nullUserRedirect: `/login?error=${encodeURIComponent(
-      'You must be logged in to view this order.',
+      'You must be logged in to view this order.'
     )}&redirect=${encodeURIComponent(`/order/${id}`)}`,
-  })
+  });
 
-  let order: Order | null = null
+  let order: Order | null = null;
 
   try {
     order = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/orders/${id}`, {
@@ -28,19 +28,19 @@ export default async function Order({ params: { id } }) {
         'Content-Type': 'application/json',
         Authorization: `JWT ${token}`,
       },
-    })?.then(async res => {
-      if (!res.ok) notFound()
-      const json = await res.json()
-      if ('error' in json && json.error) notFound()
-      if ('errors' in json && json.errors) notFound()
-      return json
-    })
+    })?.then(async (res) => {
+      if (!res.ok) notFound();
+      const json = await res.json();
+      if ('error' in json && json.error) notFound();
+      if ('errors' in json && json.errors) notFound();
+      return json;
+    });
   } catch (error) {
-    console.error(error) // eslint-disable-line no-console
+    console.error(error); // eslint-disable-line no-console
   }
 
   if (!order) {
-    notFound()
+    notFound();
   }
 
   const paymentMethodDisplay =
@@ -48,7 +48,7 @@ export default async function Order({ params: { id } }) {
       ? 'Cash On Delivery'
       : order.paymentMethod === 'card'
       ? 'Card Payment'
-      : order.paymentMethod
+      : order.paymentMethod;
 
   const statusDisplay =
     order.status === 'delivered' ? (
@@ -57,7 +57,7 @@ export default async function Order({ params: { id } }) {
       <span className={classes.cancelled}>Cancelled</span>
     ) : (
       <span className={classes.pending}>Pending</span>
-    )
+    );
 
   return (
     <div>
@@ -88,21 +88,21 @@ export default async function Order({ params: { id } }) {
             const {
               quantity,
               product,
-              product: { id, title, meta, stripeProductID },
-            } = item
+              product: { id, title, stripeProductID, gallery }, // Added gallery
+            } = item;
 
-            const metaImage = meta?.image
+            const firstImage = gallery?.[0]; // Get the first image from the gallery
 
             return (
               <Fragment key={index}>
                 <div className={classes.row}>
                   <Link href={`/products/${product.slug}`} className={classes.mediaWrapper}>
-                    {!metaImage && <span className={classes.placeholder}>No image</span>}
-                    {metaImage && typeof metaImage !== 'string' && (
+                    {!firstImage && <span className={classes.placeholder}>No image</span>}
+                    {firstImage && (
                       <Media
                         className={classes.media}
                         imgClassName={classes.image}
-                        resource={metaImage}
+                        resource={firstImage} // Use first image from gallery
                         fill
                       />
                     )}
@@ -118,15 +118,15 @@ export default async function Order({ params: { id } }) {
                   </div>
                 </div>
               </Fragment>
-            )
+            );
           }
 
-          return null
+          return null;
         })}
       </div>
       <HR className={classes.hr} />
     </div>
-  )
+  );
 }
 
 export async function generateMetadata({ params: { id } }): Promise<Metadata> {
@@ -137,5 +137,5 @@ export async function generateMetadata({ params: { id } }): Promise<Metadata> {
       title: `Order ${id}`,
       url: `/orders/${id}`,
     }),
-  }
+  };
 }
