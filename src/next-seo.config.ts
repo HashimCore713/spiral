@@ -44,7 +44,7 @@ const config = {
     additionalLinkTags: [
       {
         rel: 'icon',
-        href: '/public/favicon.png', 
+        href: '/favicon.png', 
       },
       {
         rel: 'canonical',
